@@ -1,8 +1,10 @@
 package com.lijq.mybatis;
 
+import com.github.pagehelper.PageHelper;
 import com.lijq.mybatis.config.DataSourcesConfiguration;
 import com.lijq.mybatis.config.MyBatisConfiguration;
 import com.lijq.mybatis.entity.User;
+import com.lijq.mybatis.entity.UserExample;
 import com.lijq.mybatis.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -49,16 +52,20 @@ public class MybatisTest {
         }
     }
 
-
     @Test
     @Transactional
     public void query() {
-
         User user = userMapper.selectByPrimaryKey(1);
         System.out.println(user.getUsername());
         user = userMapper.selectByPrimaryKey(1);
         System.out.println(user.getUsername());
+    }
 
+    @Test
+    public void page() {
+        PageHelper.startPage(1, 10);
+        List<User> userList = userMapper.selectByExample(new UserExample());
+        userList.forEach(System.out::println);
     }
 
 
